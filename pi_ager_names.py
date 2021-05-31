@@ -268,12 +268,12 @@ default_values[debug_table + '_' + loglevel_console_key] = 20
 default_values[system_table + '_' + pi_ager_version_key] = '"' + version_number + '"'
 ################################# Display ########################################
 # main page
-main_led_cooling = 'led_kompressor'
-main_led_heating = 'led_heizung'
+main_led_cooling = 'led_compressor'
+main_led_heating = 'led_heater'
 main_led_circulation = 'led_circulate'
 main_led_exhaust = 'led_exhaust'
 main_led_uv = 'led_uv'
-main_led_light = 'led_licht'
+main_led_light = 'led_light'
 main_led_dehumidify = 'led_dehumid'
 main_led_humidify = 'led_humid'
 
