@@ -375,37 +375,24 @@ class pi_ager_cl_nextion( threading.Thread ):
     
     async def update_extended_values(self):
         values = self.db_get_extended_values()
-        if values['status_piager'] == 0 or values['status_secondsensor'] == 0:
+        if values['status_piager'] == 0:
             await self.client.set('txt_temp_ext.txt', '--.-') 
             await self.client.set('txt_humid_ext.txt', '--.-')
             await self.client.set('txt_dewp_ext.txt', '--.-')
             await self.client.set('txt_temp_meat1.txt', '--.-')
             await self.client.set('txt_temp_meat2.txt', '--.-')
             await self.client.set('txt_temp_meat3.txt', '--.-')
-            
-        elif values['status_piager'] == 1 and values['status_secondsensor'] == 0:
-            await self.client.set('txt_temp_ext.txt', '--.-') 
-            await self.client.set('txt_humid_ext.txt', '--.-')
-            await self.client.set('txt_dewp_ext.txt', '--.-')
-            
-            if values['temp_meat1'] == None:
-                await self.client.set('txt_temp_meat1.txt', '--.-')
-            else:
-                await self.client.set('txt_temp_meat1.txt', "%.1f" % (values['temp_meat1']))
-                
-            if values['temp_meat2'] == None:
-                await self.client.set('txt_temp_meat2.txt', '--.-')
-            else:
-                await self.client.set('txt_temp_meat2.txt', "%.1f" % (values['temp_meat2']))
-                
-            if values['temp_meat3'] == None:
-                await self.client.set('txt_temp_meat3.txt', '--.-')
-            else:
-                await self.client.set('txt_temp_meat3.txt', "%.1f" % (values['temp_meat3']))
+        
         else:
-            await self.client.set('txt_temp_ext.txt', "%.1f" % (values['temp_ext']))
-            await self.client.set('txt_humid_ext.txt',"%.1f" % (values['humid_ext']))
-            await self.client.set('txt_dewp_ext.txt', "%.1f" % (values['dewp_ext']))
+            if values['status_secondsensor'] != 0:
+                await self.client.set('txt_temp_ext.txt', "%.1f" % (values['temp_ext']))
+                await self.client.set('txt_humid_ext.txt',"%.1f" % (values['humid_ext']))
+                await self.client.set('txt_dewp_ext.txt', "%.1f" % (values['dewp_ext']))
+            else:
+                await self.client.set('txt_temp_ext.txt', '--.-') 
+                await self.client.set('txt_humid_ext.txt', '--.-')
+                await self.client.set('txt_dewp_ext.txt', '--.-')    
+                
             if values['temp_meat1'] == None:
                 await self.client.set('txt_temp_meat1.txt', '--.-')
             else:
