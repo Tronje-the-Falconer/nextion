@@ -84,9 +84,9 @@ class pi_ager_cl_nextion( threading.Thread ):
                 await self.button_event.wait()
                 print('... got it!')
 
-                if self.data.page_id == 1 and self.data.component_id == 9:
+                if self.data.page_id == 1 and self.data.component_id == 8:
                     await self.control_light_status()
-                elif self.data.page_id == 1 and self.data.component_id == 8:
+                elif self.data.page_id == 1 and self.data.component_id == 7:
                     await self.client.command('page 2')
                     self.current_page_id = 2
                 elif self.data.page_id == 2 and self.data.component_id == 6:
@@ -147,10 +147,10 @@ class pi_ager_cl_nextion( threading.Thread ):
                 elif self.data.page_id == 7 and self.data.component_id == 7:
                     await self.client.command('page 1')
                     self.current_page_id = 1
-                elif self.data.page_id == 9 and self.data.component_id == 8:
+                elif self.data.page_id == 9 and self.data.component_id == 7:
                     await self.client.command('page 10')
                     self.current_page_id = 10
-                elif self.data.page_id == 9 and self.data.component_id == 9:
+                elif self.data.page_id == 9 and self.data.component_id == 8:
                     await self.control_light_status()
                 elif self.data.page_id == 10 and self.data.component_id == 6:
                     await self.control_light_status()
@@ -448,8 +448,10 @@ class pi_ager_cl_nextion( threading.Thread ):
         try:
             await self.client.connect()
             logging.info('client connected')
+            cl_fact_logger.get_instance().info('Nextion client connected')
         except Exception as e:
             logging.error(str(e))
+            cl_fact_logger.get_instance().info('Could not connect to Nextion client. Possible HDMI display not connected')
             while not self.stop_event.is_set():
                 await asyncio.sleep(1)
 
@@ -544,6 +546,7 @@ class pi_ager_cl_nextion( threading.Thread ):
             
         finally:
             #logging.info('after finally')
+            cl_fact_logger.get_instance().info('Nextion client stopped')
             self.loop.close()
             
     def stop_loop(self):
